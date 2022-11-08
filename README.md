@@ -1,2 +1,2 @@
 # dragonRepeller-JavascriptRPG
- broswer-based rpg written in javascript
+ browser-based rpg written in javascript
