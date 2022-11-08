@@ -2,10 +2,10 @@
 // can use let or var; using let is better for modern js
 let xp = 0;
 let health = 100;
-let gold = 50;
+let gold = 100;
 let currentWeapon = "";
 // this is an array
-let inventory = ["club"];
+let inventory = [" club"];
 // declaration don't need to equal things to be declared
 let fighting;
 let monsterHealth;
@@ -30,9 +30,32 @@ const monsterStats = document.querySelector("#monsterStats");
 const monsterNameText = document.querySelector("#monsterNameText");
 const monsterHealthText = document.querySelector("#monsterHealthText");
 
+// weapons array
+const weapons = [
+    {
+        name: " club",
+        power: 5
+    },
+    {
+        name: " dagger",
+        power: 25
+    },
+    {
+        name: " short sword",
+        power: 50
+    },
+    {
+        name: " longsword",
+        power: 100
+    }
+]
+
+// locations array
 const locations = [
     {
     name: "town square",
+    /* can make into string if more than one word
+    ie. "button text": [] */
     buttonText: ["Go to Store", "Go to Cave", "Fight Dragon"],
     buttonFunctions: [goStore, goCave, fightDragon],
     text: "You are in the town square."
@@ -60,9 +83,12 @@ button3.onclick = fightDragon;
 
 // create functions for buttons
 function update(location) {
+    // this is dot notation
     button1.innerText = location.buttonText[0];
     button1.onclick = location.buttonFunctions[0];
 
+    /* must use bracket notation if more than 2 words
+    ie. button1.innerText = location["button text"][1]; */
     button2.innerText = location.buttonText[1];
     button2.onclick = location.buttonFunctions[1];
 
@@ -88,6 +114,49 @@ function fightDragon() {
 
 }
 
+function buyHealth() {
+    // check if the player has enough money
+    if (gold >= 10) {
+        // make the transaction
+        gold -= 10;
+        health += 10;
+        // update stats
+        goldText.innerText = gold;
+        healthText.innerText = health;
+        // update text
+        text.innerText = "You bought 10 health.";
+    } else {
+        text.innerText = "You don't have enough gold.";
+    }
+    
+}
+
+function buyWeapon() {
+    // check if the player has enough money
+    if (currentWeapon < (weapons.length - 1)) {
+        if (gold >= 30) {
+            // make the transaction
+            gold -= 30;
+            // add new weapon to inventory
+            currentWeapon ++;
+            let newWeapon = weapons[currentWeapon].name;
+            inventory.push(newWeapon);
+            // update stats and current weapon
+            goldText.innerText = gold;
+            
+            // update text
+            text.innerText = "You bought a " + newWeapon +".";
+            text.innerText += " In your inventory, you have: " + inventory;
+        } else {
+            text.innerText = "You don't have enough gold.";
+        }
+    } else {
+        text.innerText = "You already have the most powerful weapon.";
+        button2.innerText = "Sell Weapon | 15 Gold";
+        button2.onclick = sellWeapon;
+    }
+}
+
 function fightSlime() {
 
 }
@@ -96,13 +165,18 @@ function fightGoblin() {
 
 }
 
-function buyHealth() {
-
-}
-
-
-function buyWeapon() {
-    
+function sellWeapon() {
+    if (inventory.length > 1) {
+        gold += 15;
+        goldText.innerText = gold;
+        /* because let is used, this version of currentWeapon 
+        is scoped only to the if statement - it only exists here*/
+        let currentWeapon = inventory.shift();
+        // shift moves the first element from inventory into currentWeapon
+        text.innerText = "You sold a" + currentWeapon + "."
+    } else {
+        text.innerText = "You can't sell your last weapon."
+    }
 }
 
 /* escaping a character within a string (ensuring it is literally printed)
