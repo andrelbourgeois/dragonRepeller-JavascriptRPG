@@ -2,7 +2,7 @@
 // can use let or var; using let is better for modern js
 let xp = 0;
 let health = 100;
-let gold = 100;
+let gold = 50;
 let currentWeapon = "";
 // this is an array
 let inventory = [" club"];
@@ -27,8 +27,8 @@ const xpText = document.querySelector("#xpText");
 const healthText = document.querySelector("#healthText");
 const goldText = document.querySelector("#goldText");
 const monsterStats = document.querySelector("#monsterStats");
-const monsterNameText = document.querySelector("#monsterNameText");
-const monsterHealthText = document.querySelector("#monsterHealthText");
+const monsterNameText = document.querySelector("#monsterName");
+const monsterHealthText = document.querySelector("#monsterHealth");
 
 // weapons array
 const weapons = [
@@ -50,6 +50,25 @@ const weapons = [
     }
 ]
 
+// monsters array
+const monsters = [
+    {
+        name: "Slime",
+        level: 2,
+        health: 15
+    },
+    {
+        name: "Goblin",
+        level: 8,
+        health: 60
+    },
+    {
+        name: "Dragon",
+        level: 20,
+        health: 300
+    }
+]
+
 // locations array
 const locations = [
     {
@@ -57,20 +76,26 @@ const locations = [
     /* can make into string if more than one word
     ie. "button text": [] */
     buttonText: ["Go to Store", "Go to Cave", "Fight Dragon"],
-    buttonFunctions: [goStore, goCave, fightDragon],
+    buttonFunction: [goStore, goCave, fightDragon],
     text: "You are in the town square."
 },
 {
     name: "store",
     buttonText: ["Buy 10 Health | 10 Gold", "Buy Weapon | 30 Gold", "Return to Town Square"],
-    buttonFunctions: [buyHealth, buyWeapon, goTown],
+    buttonFunction: [buyHealth, buyWeapon, goTown],
     text: "You are in the store."
 },
 {
     name: "cave",
     buttonText: ["Fight Slime", "Fight Goblin", "Return to Town Square"],
-    buttonFunctions: [fightSlime, fightGoblin, goTown],
+    buttonFunction: [fightSlime, fightGoblin, goTown],
     text: "You are in the cave."
+},
+{
+    name: "fight",
+    buttonText: ["Attack", "Dodge", "Run"],
+    buttonFunction: [attack, dodge, goTown],
+    text: "You are fighting a monster."
 }
 ]
 
@@ -85,15 +110,15 @@ button3.onclick = fightDragon;
 function update(location) {
     // this is dot notation
     button1.innerText = location.buttonText[0];
-    button1.onclick = location.buttonFunctions[0];
+    button1.onclick = location.buttonFunction[0];
 
     /* must use bracket notation if more than 2 words
     ie. button1.innerText = location["button text"][1]; */
     button2.innerText = location.buttonText[1];
-    button2.onclick = location.buttonFunctions[1];
+    button2.onclick = location.buttonFunction[1];
 
     button3.innerText = location.buttonText[2];
-    button3.onclick = location.buttonFunctions[2];
+    button3.onclick = location.buttonFunction[2];
 
     text.innerText = location.text;
 }
@@ -108,10 +133,6 @@ function goStore() {
 
 function goCave() {
     update(locations[2]);
-}
-
-function fightDragon() {
-
 }
 
 function buyHealth() {
@@ -157,14 +178,6 @@ function buyWeapon() {
     }
 }
 
-function fightSlime() {
-
-}
-
-function fightGoblin() {
-
-}
-
 function sellWeapon() {
     if (inventory.length > 1) {
         gold += 15;
@@ -179,5 +192,57 @@ function sellWeapon() {
     }
 }
 
+function fightSlime() {
+    fighting = 0;
+    goFight();
+}
+
+function fightGoblin() {
+    fighting = 1;
+    goFight();
+}
+
+function fightDragon() {
+    fighting = 2;
+    goFight();
+}
+
+function goFight() {
+    update(locations[3]);
+    monsterHealth = monsters[fighting].health;
+    monsterStats.style.display = "block";
+    monsterHealthText.innerText = monsterHealth;
+    monsterNameText.innerText = monsters[fighting].name;
+}
+
+function attack() {
+    text.innerText = "The " + monsters[fighting].name + " attacks!";
+    // concatenate more string
+    text.innerText += "You attack it with your " + weapons[currentWeapon].name + "!";
+    // record player damage
+    health -= monsters[fighting].level;
+    // record monster damage - based on power of weapon and player level
+    monsterHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * xp) +1;
+    // update health and monster health
+    healthText.innerText = health;
+    monsterHealthText.innerText = monsterHealth;
+    if (health <= 0) {
+        gameOver();
+    } else if (monsterHealth <= 0) {
+        defeatMonster();
+    }
+}
+
+function dodge() {
+    text.innerText = "You dodge the " + monsters[fighting].name + "'s attack!";
+}
+
+function gameOver() {
+
+}
+
+function defeatMonster() {
+
+}
 /* escaping a character within a string (ensuring it is literally printed)
 can be done by putting a / in front of the character */
