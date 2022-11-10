@@ -1,26 +1,27 @@
-// declaring variables
-// can use let or var; using let is better for modern js
+//declaring variables
+//can use let or var; using let is better for modern js
 let xp = 0;
 let health = 100;
 let gold = 50;
-let currentWeapon = "";
-// this is an array
+// set current weapon to 0 to access to first weapon in inventory from start
+let currentWeapon = 0;
+//this is an array
 let inventory = [" club"];
-// declaration don't need to equal things to be declared
+//declaration don't need to equal things to be declared
 let fighting;
 let monsterHealth;
 
-/* to update an html page, html elements must
-be referenced in js code */
+/*to update an html page, html elements must
+be referenced in js code*/
 
-// selects the element id button1 in the html documents
+//selects the element id button1 in the html documents
 const button1 = document.querySelector("#button1");
-// these buttons allow interactivty with and control of the game
+//these buttons allow interactivty with and control of the game
 const button2 = document.querySelector("#button2");
-// they can be constants because they will not change
+//they can be constants because they will not change
 const button3 = document.querySelector("#button3");
 
-// var allows the most changing, followed by let, and then const
+//var allows the most changing, followed by let, and then const
 
 const text = document.querySelector("#text");
 const xpText = document.querySelector("#xpText");
@@ -30,7 +31,9 @@ const monsterStats = document.querySelector("#monsterStats");
 const monsterNameText = document.querySelector("#monsterName");
 const monsterHealthText = document.querySelector("#monsterHealth");
 
-// weapons array
+/*the following arrays prevent rewriting code to implement similar 
+functions throughout this file*/
+//weapons array
 const weapons = [
     {
         name: " club",
@@ -49,8 +52,10 @@ const weapons = [
         power: 100
     }
 ]
-
-// monsters array
+/*items in these arrays can be accessed dot notation
+ie. monsters[1].name (or the value that corresponds with name 
+at index 1 in the monsters array; Goblin) */
+//monsters array
 const monsters = [
     {
         name: "Slime",
@@ -68,13 +73,14 @@ const monsters = [
         health: 300
     }
 ]
-
-// locations array
+/*the arrays are const because their values will not change, if you
+need to write information to them, they would be let or var*/
+//locations array
 const locations = [
     {
     name: "town square",
-    /* can make into string if more than one word
-    ie. "button text": [] */
+    /*can make into string if more than one word
+    ie. "button text": []*/
     buttonText: ["Go to Store", "Go to Cave", "Fight Dragon"],
     buttonFunction: [goStore, goCave, fightDragon],
     text: "You are in the town square."
@@ -96,24 +102,44 @@ const locations = [
     buttonText: ["Attack", "Dodge", "Run"],
     buttonFunction: [attack, dodge, goTown],
     text: "You are fighting a monster."
+},
+{
+    name: "kill monster",
+    buttonText: ["Go to Town Square", "Go to Town Square", "Go to Town Square"],
+    buttonFunction: [goTown, goTown, goTown],
+    text: "You defeated the monster! You gain experience and find gold."
+},
+{
+    name: "game over",
+    buttonText: ["Replay?", "Replay?", "Replay?"],
+    buttonFunction: [restart, restart, restart],
+    text: "You died."
+},
+{
+    name: "win game",
+    buttonText: ["Replay?", "Replay?", "Replay?"],
+    buttonFunction: [restart, restart, restart],
+    text: "You defeated the dragon! You win the game!"
 }
 ]
 
 
-// initialize buttons - action/reaction - ie. when clicked, do something
-
+//initialize buttons - action/reaction - ie. when clicked, do something
+//these correspond with the buttons strucutured in the html and css
 button1.onclick = goStore;
 button2.onclick = goCave;
 button3.onclick = fightDragon;
 
-// create functions for buttons
+//create functions for buttons
 function update(location) {
-    // this is dot notation
+    monsterStats.style.display = "none";
+
+    //this is dot notation
     button1.innerText = location.buttonText[0];
     button1.onclick = location.buttonFunction[0];
 
-    /* must use bracket notation if more than 2 words
-    ie. button1.innerText = location["button text"][1]; */
+    /*must use bracket notation if more than 2 words
+    ie. button1.innerText = location["button text"][1];*/
     button2.innerText = location.buttonText[1];
     button2.onclick = location.buttonFunction[1];
 
@@ -136,15 +162,15 @@ function goCave() {
 }
 
 function buyHealth() {
-    // check if the player has enough money
+    //check if the player has enough money
     if (gold >= 10) {
-        // make the transaction
+        //make the transaction
         gold -= 10;
         health += 10;
-        // update stats
+        //update stats
         goldText.innerText = gold;
         healthText.innerText = health;
-        // update text
+        //update text
         text.innerText = "You bought 10 health.";
     } else {
         text.innerText = "You don't have enough gold.";
@@ -153,19 +179,19 @@ function buyHealth() {
 }
 
 function buyWeapon() {
-    // check if the player has enough money
+    //check if the player has enough money
     if (currentWeapon < (weapons.length - 1)) {
         if (gold >= 30) {
-            // make the transaction
+            //make the transaction
             gold -= 30;
-            // add new weapon to inventory
+            //add new weapon to inventory
             currentWeapon ++;
             let newWeapon = weapons[currentWeapon].name;
             inventory.push(newWeapon);
-            // update stats and current weapon
+            //update stats and current weapon
             goldText.innerText = gold;
             
-            // update text
+            //update text
             text.innerText = "You bought a " + newWeapon +".";
             text.innerText += " In your inventory, you have: " + inventory;
         } else {
@@ -182,18 +208,22 @@ function sellWeapon() {
     if (inventory.length > 1) {
         gold += 15;
         goldText.innerText = gold;
-        /* because let is used, this version of currentWeapon 
+        /*because let is used, this version of currentWeapon 
         is scoped only to the if statement - it only exists here*/
         let currentWeapon = inventory.shift();
-        // shift moves the first element from inventory into currentWeapon
+        //shift moves the first element from inventory into currentWeapon
         text.innerText = "You sold a" + currentWeapon + "."
     } else {
         text.innerText = "You can't sell your last weapon."
     }
 }
-
+//initialize the fighting functions
 function fightSlime() {
+/*sets the value of fighting to correspond with their index in the
+monsters array, this will allow subsequent code to easily access
+the information from this array*/
     fighting = 0;
+//calls goFight
     goFight();
 }
 
@@ -208,9 +238,14 @@ function fightDragon() {
 }
 
 function goFight() {
+    /*update to the fighting location so the user can access the
+    correct buttons*/
     update(locations[3]);
+    //set monster health from the monsters array
     monsterHealth = monsters[fighting].health;
+    //reveal the monster stats section in the html page
     monsterStats.style.display = "block";
+    //set the value of the monster stats based on the monster array
     monsterHealthText.innerText = monsterHealth;
     monsterNameText.innerText = monsters[fighting].name;
 }
@@ -218,7 +253,7 @@ function goFight() {
 function attack() {
     text.innerText = "The " + monsters[fighting].name + " attacks!";
     // concatenate more string
-    text.innerText += "You attack it with your " + weapons[currentWeapon].name + "!";
+    text.innerText += " You attack it with your " + weapons[currentWeapon].name + "!";
     // record player damage
     health -= monsters[fighting].level;
     // record monster damage - based on power of weapon and player level
@@ -226,10 +261,23 @@ function attack() {
     // update health and monster health
     healthText.innerText = health;
     monsterHealthText.innerText = monsterHealth;
+    console.log(monsterHealth);
     if (health <= 0) {
         gameOver();
     } else if (monsterHealth <= 0) {
-        defeatMonster();
+        /*the ternary operator (below) is a quick way of writing a 
+        one-line if else statement with only two options - takes 3
+        operands;
+        1. a condition followed by a question mark (?)
+        2. an expression to execute if true, followed by a colon (:)
+        3. an expression to execute if false */
+        fighting === 2 ? winGame() : defeatMonster();
+        /*this statement can also be written more traditionally as;
+        if (fighting === 2) {
+            winGame();
+        } else {
+            defeatMonster();
+        }*/
     }
 }
 
@@ -237,12 +285,37 @@ function dodge() {
     text.innerText = "You dodge the " + monsters[fighting].name + "'s attack!";
 }
 
-function gameOver() {
-
-}
-
 function defeatMonster() {
-
+    gold += Math.floor(monsters[fighting].level*6.7);
+    xp += monsters[fighting].level;
+    goldText.innerText = gold;
+    xpText.innerText = xp;
+    update(locations[4]);
 }
+
+function gameOver() {
+    update(locations[5]);
+}
+
+function restart() {
+    xp = 0;
+    health = 100;
+    gold = 50;
+    currentWeapon = 0;
+    inventory = ["club"];
+    xpText.innerText = xp;
+    healthText.innerText = health;
+    goldText.innerText = gold;
+    goTown();
+}
+
+function winGame() {
+    update(locations[6]);
+}
+
 /* escaping a character within a string (ensuring it is literally printed)
 can be done by putting a / in front of the character */
+
+/* ISSUES
+1. 
+*/
