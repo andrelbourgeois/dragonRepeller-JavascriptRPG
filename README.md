@@ -1,9 +1,11 @@
 # dragonRepeller-JavascriptRPG
  browser-based rpg written in javascript
 
-# personal edits and improvements
+# personal updates and improvements
+- game has been given a gladiator theme
 - an if statement added to the monster damage calculation prevents a negative damage calculation from healing the player - this was an issue i discovered during a playthrough of the original game
 - player weapon only has a chance to break upon a successful hit
+- player name input
 
 # to do
 - ~~make into gladiator game~~
