@@ -408,12 +408,3 @@ function pick(guess) {
 
 /* escaping a character within a string (ensuring it is literally printed)
 can be done by putting a / in front of the character */
-
-/* To Do
-1. player name input DONE
-2. player name usage in text
-2. implement variable levels for opponent (random, but within a range)
-3. background images that change based on player location (Add these to location objects)
-4. leveling based on experience
-5. level-locked weapons ie. can only use dagger after level 5 etc.
-*/

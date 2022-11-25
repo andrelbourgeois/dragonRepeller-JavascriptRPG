@@ -6,6 +6,11 @@
 - player weapon only has a chance to break upon a successful hit
 
 # to do
-- make into gladiator game
+- ~~make into gladiator game~~
+- ~~player name input~~
+- player name usage in text
 - implement opponent missing
-- implement scaled opponent leveling
+- implement variable levels for opponent (random, but within a range)
+- background images that change based on player location (Add these to location objects)
+- player leveling based on experience
+- level-locked weapons ie. can only use dagger after level 5 etc.
