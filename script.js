@@ -1,15 +1,16 @@
 //declaring variables
 //can use let or var; using let is better for modern js
+let playerName = prompt("What is your name?");
 let xp = 0;
 let health = 100;
 let gold = 50;
 // set current weapon to 0 to access to first weapon in inventory from start
 let currentWeapon = 0;
-//this is an array
+//this is an arrayANdre
 let inventory = [" club"];
 //declaration don't need to equal things to be declared
 let fighting;
-let monsterHealth;
+let opponentHealth;
 
 /*to update an html page, html elements must
 be referenced in js code*/
@@ -24,12 +25,14 @@ const button3 = document.querySelector("#button3");
 //var allows the most changing, followed by let, and then const
 
 const text = document.querySelector("#text");
+const playerNameText = document.querySelector("#playerNameText");
+playerNameText.innerText = playerName;
 const xpText = document.querySelector("#xpText");
 const healthText = document.querySelector("#healthText");
 const goldText = document.querySelector("#goldText");
-const monsterStats = document.querySelector("#monsterStats");
-const monsterNameText = document.querySelector("#monsterName");
-const monsterHealthText = document.querySelector("#monsterHealth");
+const opponentStats = document.querySelector("#opponentStats");
+const opponentNameText = document.querySelector("#opponentName");
+const opponentHealthText = document.querySelector("#opponentHealth");
 
 /*the following arrays prevent rewriting code to implement similar 
 functions throughout this file*/
@@ -53,22 +56,22 @@ const weapons = [
     }
 ]
 /*items in these arrays can be accessed dot notation
-ie. monsters[1].name (or the value that corresponds with name 
-at index 1 in the monsters array; Goblin) */
-//monsters array
-const monsters = [
+ie. opponents[1].name (or the value that corresponds with name 
+at index 1 in the opponents array; Gladiator) */
+//opponents array
+const opponents = [
     {
-        name: "Slime",
+        name: "Beast",
         level: 2,
         health: 15
     },
     {
-        name: "Goblin",
+        name: "Gladiator",
         level: 8,
         health: 60
     },
     {
-        name: "Dragon",
+        name: "Champion",
         level: 20,
         health: 300
     }
@@ -81,8 +84,8 @@ const locations = [
     name: "town square",
     /*can make into string if more than one word
     ie. "button text": []*/
-    buttonText: ["Go to Store", "Go to Cave", "Fight Dragon"],
-    buttonFunction: [goStore, goCave, fightDragon],
+    buttonText: ["Go to Store", "Go to Arena", "Fight Champion"],
+    buttonFunction: [goStore, goArena, fightChampion],
     text: "You are in the town square."
     },
     {
@@ -92,23 +95,23 @@ const locations = [
         text: "You are in the store."
     },
     {
-        name: "cave",
-        buttonText: ["Fight Slime", "Fight Goblin", "Return to Town Square"],
-        buttonFunction: [fightSlime, fightGoblin, goTown],
-        text: "You are in the cave."
+        name: "arena",
+        buttonText: ["Fight Beast", "Fight Gladiator", "Return to Town Square"],
+        buttonFunction: [fightBeast, fightGladiator, goTown],
+        text: "You are in the arena."
     },
     {
         name: "fight",
         buttonText: ["Attack", "Dodge", "Run"],
         buttonFunction: [attack, dodge, goTown],
-        text: "You are fighting a monster."
+        text: "You are fighting an opponent."
     },
     {
-        name: "kill monster",
+        name: "kill opponent",
         buttonText: ["Go to Town Square", "Go to Town Square", "Go to Town Square"],
-        // hiding the easter egg after a monster kill
+        // hiding the easter egg after a opponent kill
         buttonFunction: [goTown, goTown, easterEgg],
-        text: "You defeated the monster! You gain experience and find gold."
+        text: "You defeated your opponent! You gain experience and find gold."
     },
     {
         name: "game over",
@@ -120,7 +123,7 @@ const locations = [
         name: "win game",
         buttonText: ["Replay?", "Replay?", "Replay?"],
         buttonFunction: [restart, restart, restart],
-        text: "You defeated the dragon! You win the game!"
+        text: "You defeated the Champion! You win the game!"
     },
     {
         name: "easter egg",
@@ -134,12 +137,12 @@ const locations = [
 //initialize buttons - action/reaction - ie. when clicked, do something
 //these correspond with the buttons strucutured in the html and css
 button1.onclick = goStore;
-button2.onclick = goCave;
-button3.onclick = fightDragon;
+button2.onclick = goArena;
+button3.onclick = fightChampion;
 
 //create functions for buttons
 function update(location) {
-    monsterStats.style.display = "none";
+    opponentStats.style.display = "none";
 
     //this is dot notation
     button1.innerText = location.buttonText[0];
@@ -166,8 +169,8 @@ function goStore() {
     update(locations[1]);
 }
 
-//takes that player to the cave
-function goCave() {
+//takes that player to the arena
+function goArena() {
     update(locations[2]);
 }
 
@@ -232,21 +235,21 @@ function sellWeapon() {
 }
 
 //initialize fighting functions - allows the player to fight mosnters
-function fightSlime() {
+function fightBeast() {
 /*sets the value of fighting to correspond with their index in the
-monsters array, this will allow subsequent code to easily access
+opponents array, this will allow subsequent code to easily access
 the information from this array*/
     fighting = 0;
 //calls goFight
     goFight();
 }
 
-function fightGoblin() {
+function fightGladiator() {
     fighting = 1;
     goFight();
 }
 
-function fightDragon() {
+function fightChampion() {
     fighting = 2;
     goFight();
 }
@@ -256,24 +259,24 @@ function goFight() {
     /*update to the fighting location so the user can access the
     correct buttons*/
     update(locations[3]);
-    //set monster health from the monsters array
-    monsterHealth = monsters[fighting].health;
-    //reveal the monster stats section in the html page
-    monsterStats.style.display = "block";
-    //set the value of the monster stats based on the monster array
-    monsterHealthText.innerText = monsterHealth;
-    monsterNameText.innerText = monsters[fighting].name;
+    //set opponent health from the opponents array
+    opponentHealth = opponents[fighting].health;
+    //reveal the opponent stats section in the html page
+    opponentStats.style.display = "block";
+    //set the value of the opponent stats based on the opponent array
+    opponentHealthText.innerText = opponentHealth;
+    opponentNameText.innerText = opponents[fighting].name;
 }
 
-//accomplishes the player's and monsters' attacks
+//accomplishes the player's and opponents' attacks
 function attack() {
-    text.innerText = "The " + monsters[fighting].name + " attacks!";
+    text.innerText = "The " + opponents[fighting].name + " attacks!";
     //concatenate more string
     text.innerText += " You attack it with your " + weapons[currentWeapon].name + "!";
     
-    if (isMonsterHit()) {
-        //record damage to monster - based on power of weapon and player level
-        monsterHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * xp) +1;
+    if (isOpponentHit()) {
+        //record damage to opponent - based on power of weapon and player level
+        opponentHealth -= weapons[currentWeapon].power + Math.floor(Math.random() * xp) +1;
         // 10% chance weapon will break, cannot break if only weapon in inventory
         if (Math.random() <= 0.1 && inventory.length !== 1) {
             // removes final item in inventory array and displays it in text
@@ -286,31 +289,31 @@ function attack() {
     }
 
     //record damage to player
-    health -= getMonsterAttackValue(monsters[fighting].level);
-    //update health and monster health
+    health -= getOpponentAttackValue(opponents[fighting].level);
+    //update health and opponent health
     healthText.innerText = health;
-    monsterHealthText.innerText = monsterHealth;
+    opponentHealthText.innerText = opponentHealth;
     if (health <= 0) {
         gameOver();
-    } else if (monsterHealth <= 0) {
+    } else if (opponentHealth <= 0) {
         /*the ternary operator (below) is a quick way of writing a 
         one-line if else statement with only two options - takes 3
         operands;
         1. a condition followed by a question mark (?)
         2. an expression to execute if true, followed by a colon (:)
         3. an expression to execute if false */
-        fighting === 2 ? winGame() : defeatMonster();
+        fighting === 2 ? winGame() : defeatOpponent();
         /*this statement can also be written more traditionally as;
         if (fighting === 2) {
             winGame();
         } else {
-            defeatMonster();
+            defeatopponent();
         }*/
     }
 }
 
-//creates a monster value based on monster level and player xp
-function getMonsterAttackValue(level) {
+//creates a opponent value based on opponent level and player xp
+function getOpponentAttackValue(level) {
     let hit = (level * 5) - (Math.floor(Math.random() * xp));
     console.log(hit);
     // this if statement prevents a negative hit value from healing the player
@@ -322,8 +325,8 @@ function getMonsterAttackValue(level) {
     
 }
 
-// randomly determines if the player hit the monster
-function isMonsterHit() {
+// randomly determines if the player hit the opponent
+function isOpponentHit() {
     // will return false 20% of the time, resulting in a player miss
     return Math.random() > 0.2 || health < 20;
     // || is the logical OR operator
@@ -331,12 +334,12 @@ function isMonsterHit() {
 }
 
 function dodge() {
-    text.innerText = "You dodge the " + monsters[fighting].name + "'s attack!";
+    text.innerText = "You dodge the " + opponents[fighting].name + "'s attack!";
 }
 
-function defeatMonster() {
-    gold += Math.floor(monsters[fighting].level*6.7);
-    xp += monsters[fighting].level;
+function defeatOpponent() {
+    gold += Math.floor(opponents[fighting].level*6.7);
+    xp += opponents[fighting].level;
     goldText.innerText = gold;
     xpText.innerText = xp;
     update(locations[4]);
@@ -406,6 +409,11 @@ function pick(guess) {
 /* escaping a character within a string (ensuring it is literally printed)
 can be done by putting a / in front of the character */
 
-/* ISSUES
-1. 
+/* To Do
+1. player name input DONE
+2. player name usage in text
+2. implement variable levels for opponent (random, but within a range)
+3. background images that change based on player location (Add these to location objects)
+4. leveling based on experience
+5. level-locked weapons ie. can only use dagger after level 5 etc.
 */

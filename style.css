@@ -1,5 +1,6 @@
 body {
   background-color: darkblue;
+  padding-top: 100px;
 }
 
 #text {
@@ -9,7 +10,7 @@ body {
 }
 
 #game {
-  max-width: 500px;
+  max-width: 600px;
   max-height: 400px;
   background-color: lightgray;
   color: white;
@@ -28,7 +29,7 @@ body {
   padding: 5px;
 }
 
-#monsterStats {
+#opponentStats {
   display: none;
   border: 1px black solid;
   color: white;

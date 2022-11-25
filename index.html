@@ -2,9 +2,10 @@
 author: andré bourgeois
 last-updated: 06.11.2022
 -->
-<!--this is text-based rpg built using the free code camp
+<!--this is a text-based rpg built using the help of the free code camp
 tutorial @ https://www.freecodecamp.org/news/
-learn-full-stack-development-html-css-javascript-node-js-mongodb-->
+learn-full-stack-development-html-css-javascript-node-js-mongodb
+i've added severeal updates and modifications-->
 
 <!DOCTYPE html>
 <html lang="en" >
@@ -21,20 +22,21 @@ learn-full-stack-development-html-css-javascript-node-js-mongodb-->
 <body>
 <div id="game">
   <div id="stats">
+    <span class="stat">Name: <strong><span id="playerNameText">Gladiator</span></strong></span>
     <span class="stat">XP: <strong><span id="xpText">0</span></strong></span>
     <span class="stat">Health: <strong><span id="healthText">100</span></strong></span>
     <span class="stat">Gold: <strong><span id="goldText">50</span></strong></span>
   </div>
   <div id="controls">
     <button id="button1">Go to store</button>
-    <button id="button2">Go to cave</button>
-    <button id="button3">Fight dragon</button>
+    <button id="button2">Go to Arena</button>
+    <button id="button3">Fight Champion</button>
   </div>
-  <div id="monsterStats">
-    <span class="stat">Monster Name: <strong><span id="monsterName"></span></strong></span>
-    <span class="stat">Health: <strong><span id="monsterHealth"></span></strong></span>
+  <div id="opponentStats">
+    <span class="stat">Opponent Name: <strong><span id="opponentName"></span></strong></span>
+    <span class="stat">Health: <strong><span id="opponentHealth"></span></strong></span>
   </div>
-  <div id="text">Welcome to Dragon Repeller. You must defeat the dragon that is preventing people from leaving the town. You are in the town square. Where do you want to go? Use the buttons above.</div>
+  <div id="text">Welcome to Gladiator's Coliseum. You must become Coliseum Champion! You are in the town square. Where do you want to go? Use the buttons above.</div>
 </div>
 <script  src="script.js"></script>
 </body>
