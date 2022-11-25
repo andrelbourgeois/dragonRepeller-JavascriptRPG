@@ -1,5 +1,9 @@
-# dragonRepeller-JavascriptRPG
- browser-based rpg written in javascript
+# Gladiator Coliseum
+ A browser-based RPG written in javascript
+ Author: André Bourgeois
+
+ This game was built with the help of a free code camp [tutorial](https://www.freecodecamp.org/news/learn-full-stack-development-html-css-javascript-node-js-mongodb)
+ However, I have made updates and improvements based on personal preference and issues I encountered while coding the initial iteration
 
 # personal updates and improvements
 - game has been given a gladiator theme
@@ -8,8 +12,6 @@
 - player name input
 
 # to do
-- ~~make into gladiator game~~
-- ~~player name input~~
 - player name usage in text
 - implement opponent missing
 - implement variable levels for opponent (random, but within a range)
