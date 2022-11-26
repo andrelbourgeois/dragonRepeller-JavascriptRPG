@@ -14,7 +14,21 @@
 # to do
 - player name usage in text
 - implement opponent missing
+- change the dodging mechanic - at the moment, dodging provides no benefit to the player - it only prolongs the fight
 - implement variable levels for opponent (random, but within a range)
 - background images that change based on player location (Add these to location objects)
 - player leveling based on experience
 - level-locked weapons ie. can only use dagger after level 5 etc.
+
+# notes
+for dodge mechanic - maybe randomize when the opponent attacks
+
+while attacking
+- both hit, both take damage
+- player hit, opponent miss, opponenet take damage
+- player miss, opponent hit, player take damage
+
+while dodging
+- both dodge, no damage
+- player dodge, opponent attack, no damage
+- player attack, opponent dodge, no damage

@@ -317,7 +317,6 @@ function attack() {
 //creates a opponent value based on opponent level and player xp
 function getOpponentAttackValue(level) {
     let hit = (level * 5) - (Math.floor(Math.random() * xp));
-    console.log(hit);
     // this if statement prevents a negative hit value from healing the player
     if (hit > 0) {
         return hit;
