@@ -1,13 +1,14 @@
 //declaring variables
 //can use let or var; using let is better for modern js
-let playerName = prompt("What is your name?");
+//get player name from input at the beginning of the game
+let playerName = prompt("Enter your Gladiator's name?");
 let xp = 0;
 let health = 100;
 let gold = 50;
 // set current weapon to 0 to access to first weapon in inventory from start
 let currentWeapon = 0;
 //this is an arrayANdre
-let inventory = [" club"];
+let inventory = [" Club"];
 //declaration don't need to equal things to be declared
 let fighting;
 let opponentHealth;
@@ -26,6 +27,7 @@ const button3 = document.querySelector("#button3");
 
 const text = document.querySelector("#text");
 const playerNameText = document.querySelector("#playerNameText");
+//allocate player name to the name stat
 playerNameText.innerText = playerName;
 const xpText = document.querySelector("#xpText");
 const healthText = document.querySelector("#healthText");
@@ -39,19 +41,19 @@ functions throughout this file*/
 //weapons array
 const weapons = [
     {
-        name: " club",
+        name: " Club",
         power: 5
     },
     {
-        name: " dagger",
+        name: " Dagger",
         power: 25
     },
     {
-        name: " short sword",
+        name: " Short sword",
         power: 50
     },
     {
-        name: " longsword",
+        name: " Longsword",
         power: 100
     }
 ]
@@ -81,37 +83,37 @@ need to write information to them, they would be let or var*/
 //locations array
 const locations = [
     {
-    name: "town square",
+    name: "barracks",
     /*can make into string if more than one word
     ie. "button text": []*/
     buttonText: ["Go to Store", "Go to Arena", "Fight Champion"],
     buttonFunction: [goStore, goArena, fightChampion],
-    text: "You are in the town square."
+    text: "You are in the Barracks"
     },
     {
         name: "store",
-        buttonText: ["Buy 10 Health | 10 Gold", "Buy Weapon | 30 Gold", "Return to Town Square"],
-        buttonFunction: [buyHealth, buyWeapon, goTown],
-        text: "You are in the store."
+        buttonText: ["Buy 10 Health | 10 Gold", "Buy Weapon | 30 Gold", "Return to Barracks"],
+        buttonFunction: [buyHealth, buyWeapon, goBarracks],
+        text: "You are in the Store."
     },
     {
         name: "arena",
-        buttonText: ["Fight Beast", "Fight Gladiator", "Return to Town Square"],
-        buttonFunction: [fightBeast, fightGladiator, goTown],
-        text: "You are in the arena."
+        buttonText: ["Fight Beast", "Fight Gladiator", "Return to Barracks"],
+        buttonFunction: [fightBeast, fightGladiator, goBarracks],
+        text: "You are in the Arena."
     },
     {
         name: "fight",
         buttonText: ["Attack", "Dodge", "Run"],
-        buttonFunction: [attack, dodge, goTown],
+        buttonFunction: [attack, dodge, goBarracks],
         text: "You are fighting an opponent."
     },
     {
         name: "kill opponent",
-        buttonText: ["Go to Town Square", "Go to Town Square", "Go to Town Square"],
+        buttonText: ["Go to Barracks", "Go to Barracks", "Go to Barracks"],
         // hiding the easter egg after a opponent kill
-        buttonFunction: [goTown, goTown, easterEgg],
-        text: "You defeated your opponent! You gain experience and find gold."
+        buttonFunction: [goBarracks, goBarracks, easterEgg],
+        text: "You defeated your opponent! You recieve gold for you victory!"
     },
     {
         name: "game over",
@@ -127,8 +129,8 @@ const locations = [
     },
     {
         name: "easter egg",
-        buttonText: ["Two", "Seven", "Go to Town Square"],
-        buttonFunction: [pickTwo, pickSeven, goTown],
+        buttonText: ["Two", "Seven", "Go to Barracks"],
+        buttonFunction: [pickTwo, pickSeven, goBarracks],
         text: "You found a secret game! Pick a number above! If the number you choose matches a randomly generated number between 1 and 10, you win a prize!"
     }
 ]
@@ -159,8 +161,8 @@ function update(location) {
     text.innerText = location.text;
 }
 
-//takes the player back to town
-function goTown() {
+//takes the player back to barracks
+function goBarracks() {
     update(locations[0]);
 }
 
@@ -358,7 +360,7 @@ function restart() {
     xpText.innerText = xp;
     healthText.innerText = health;
     goldText.innerText = gold;
-    goTown();
+    goBarracks();
 }
 
 function winGame() {
