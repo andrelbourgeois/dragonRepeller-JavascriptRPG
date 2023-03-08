@@ -1,4 +1,4 @@
-# Gladiator Coliseum
+# Gladiator Colosseum
  A browser-based RPG written in javascript
  Author: André Bourgeois
 
